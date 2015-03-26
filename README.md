@@ -20,7 +20,7 @@ Berikut ini adalah bagian yang akan di validasi:
 <li>token format (signingInput &gt;&gt; <b>&lt;header&gt;.&lt;claim&gt;</b>)</li>
 <li>signature</li>
 <li>query string (qsh)</li>
-<li>the issuer of the claim (iss)</li>
+<li>(<b>optional</b>) the issuer of the claim (iss)</li>
 <li>expiration token</li>
 </ul>
 
