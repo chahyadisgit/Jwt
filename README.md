@@ -14,7 +14,15 @@ Model yang digunakan untuk transaksi JwtClient & JwtServer
 Library untuk generate token
 
 #### JwtServer
-Library untuk verified token
+Library untuk verified token.<br/>
+Berikut ini adalah bagian yang akan di validasi:
+<ul>
+<li>token format (signingInput &gt;&gt; <b>&lt;header&gt;.&lt;claim&gt;</b>)</li>
+<li>signature</li>
+<li>query string (qsh)</li>
+<li>Key token</li>
+<li>expiration token</li>
+</ul>
 
 ##### Project Status
 on progress
