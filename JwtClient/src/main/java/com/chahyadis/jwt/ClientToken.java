@@ -16,6 +16,7 @@ import com.atlassian.jwt.core.writer.NimbusJwtWriterFactory;
 import com.atlassian.jwt.httpclient.CanonicalHttpUriRequest;
 import com.atlassian.jwt.writer.JwtJsonBuilder;
 import com.atlassian.jwt.writer.JwtWriterFactory;
+import com.chahyadis.jwt.constant.ConstantaVariable;
 import com.chahyadis.jwt.model.UrlContextPathModel;
 
 /**
@@ -35,8 +36,10 @@ public class ClientToken {
 	 * @param urlContextPathModel
 	 *            {@link UrlContextPathModel}
 	 * @param parameterMap
-	 *            {@link Map}
-	 * @return {@link String}
+	 *            {@link Map}<br/>
+	 *            parameter (from query string).
+	 * @return {@link String}<br/>
+	 *         url with token.
 	 * @throws UnsupportedEncodingException
 	 * @throws NoSuchAlgorithmException
 	 */
@@ -46,10 +49,13 @@ public class ClientToken {
 		long issuedAt = TimeUtil.currentTimeSeconds();
 		long expiresAt = issuedAt + urlContextPathModel.getExpiresAt();
 		String key = urlContextPathModel.getKey();
-		String sharedSecret = JwtUtil.computeSha256Hash(urlContextPathModel
-				.getSharedSecret());
+		String sharedSecret = (null == urlContextPathModel.getSharedSecret() ? ConstantaVariable.DEFAULT_SHARED_KEY
+				: JwtUtil.computeSha256Hash(urlContextPathModel
+						.getSharedSecret()));
+
 		String method = urlContextPathModel.getMethod();
 		String contextPath = urlContextPathModel.getContextPath();
+		String baseUrl = urlContextPathModel.getBaseUrl() + contextPath;
 		String apiPath = urlContextPathModel.getApiPath();
 
 		// create claim
@@ -68,7 +74,7 @@ public class ClientToken {
 		String jwtToken = jwtWriterFactory.macSigningWriter(
 				SigningAlgorithm.HS256, sharedSecret).jsonToJwt(jwtbuilt);
 
-		return jwtToken;
+		return baseUrl + apiPath + "?jwt=" + jwtToken;
 	}
 
 }
