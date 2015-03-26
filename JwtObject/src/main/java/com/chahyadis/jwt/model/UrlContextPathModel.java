@@ -20,6 +20,8 @@ public class UrlContextPathModel {
 	private String apiPath;
 
 	/**
+	 * UrlContextPathModel.
+	 * 
 	 * @param expiresAt
 	 *            {@link Long}
 	 * @param key
@@ -51,110 +53,146 @@ public class UrlContextPathModel {
 	 * UrlContextPathModel.
 	 */
 	public UrlContextPathModel() {
-		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
-	 * @return the expiresAt
+	 * getExpiresAt.
+	 * 
+	 * @return the expiresAt<br/>
+	 *         Expiration time.
 	 */
 	public Long getExpiresAt() {
 		return expiresAt;
 	}
 
 	/**
+	 * setExpiresAt.
+	 * 
 	 * @param expiresAt
-	 *            the expiresAt to set
+	 *            {@link Long}<br/>
+	 *            the expiresAt to set.
 	 */
 	public void setExpiresAt(Long expiresAt) {
 		this.expiresAt = expiresAt;
 	}
 
 	/**
-	 * @return the key
+	 * getKey.
+	 * 
+	 * @return the key<br/>
+	 *         key of application.
 	 */
 	public String getKey() {
 		return key;
 	}
 
 	/**
+	 * setKey.
+	 * 
 	 * @param key
-	 *            the key to set
+	 *            {@link String} the key to set.
 	 */
 	public void setKey(String key) {
 		this.key = key;
 	}
 
 	/**
-	 * @return the sharedSecret
+	 * getSharedSecret.
+	 * 
+	 * @return the sharedSecret<br/>
+	 *         is secret key for signature.
 	 */
 	public String getSharedSecret() {
 		return sharedSecret;
 	}
 
 	/**
+	 * setSharedSecret.
+	 * 
 	 * @param sharedSecret
-	 *            the sharedSecret to set
+	 *            {@link String} the sharedSecret to set.
 	 */
 	public void setSharedSecret(String sharedSecret) {
 		this.sharedSecret = sharedSecret;
 	}
 
 	/**
-	 * @return the method
+	 * getMethod.
+	 * 
+	 * @return the method {@link String}<br/>
+	 *         method of transaction.
 	 */
 	public String getMethod() {
 		return method;
 	}
 
 	/**
+	 * setMethod.
+	 * 
 	 * @param method
-	 *            the method to set
+	 *            {@link String}<br/>
+	 *            the method to set (use the MethodEnum).
 	 */
 	public void setMethod(String method) {
 		this.method = method;
 	}
 
 	/**
-	 * @return the baseUrl
+	 * getBaseUrl.
+	 * 
+	 * @return the baseUrl {@link String}
 	 */
 	public String getBaseUrl() {
 		return baseUrl;
 	}
 
 	/**
+	 * setBaseUrl.
+	 * 
 	 * @param baseUrl
-	 *            the baseUrl to set
+	 *            {@link String}<br/>
+	 *            the baseUrl (target url) to set.
 	 */
 	public void setBaseUrl(String baseUrl) {
 		this.baseUrl = baseUrl;
 	}
 
 	/**
-	 * @return the contextPath
+	 * getContextPath.
+	 * 
+	 * @return the contextPath {@link String}
 	 */
 	public String getContextPath() {
 		return contextPath;
 	}
 
 	/**
+	 * setContextPath.
+	 * 
 	 * @param contextPath
-	 *            the contextPath to set
+	 *            {@link String}<br/>
+	 *            the contextPath to set.
 	 */
 	public void setContextPath(String contextPath) {
 		this.contextPath = contextPath;
 	}
 
 	/**
-	 * @return the apiPath
+	 * getApiPath.
+	 * 
+	 * @return the apiPath {@link String}
 	 */
 	public String getApiPath() {
 		return apiPath;
 	}
 
 	/**
+	 * setApiPath<br/>
+	 * is the URI.
+	 * 
 	 * @param apiPath
-	 *            the apiPath to set
+	 *            {@link String}<br/>
+	 *            the apiPath to set.
 	 */
 	public void setApiPath(String apiPath) {
 		this.apiPath = apiPath;
