@@ -49,9 +49,10 @@ public class ClientToken {
 		long issuedAt = TimeUtil.currentTimeSeconds();
 		long expiresAt = issuedAt + urlContextPathModel.getExpiresAt();
 		String key = urlContextPathModel.getKey();
-		String sharedSecret = (null == urlContextPathModel.getSharedSecret() ? ConstantaVariable.DEFAULT_SHARED_KEY
-				: JwtUtil.computeSha256Hash(urlContextPathModel
-						.getSharedSecret()));
+		String sharedSecret = JwtUtil
+				.computeSha256Hash((null == urlContextPathModel
+						.getSharedSecret() ? ConstantaVariable.DEFAULT_SHARED_KEY
+						: urlContextPathModel.getSharedSecret()));
 
 		String method = urlContextPathModel.getMethod();
 		String contextPath = urlContextPathModel.getContextPath();

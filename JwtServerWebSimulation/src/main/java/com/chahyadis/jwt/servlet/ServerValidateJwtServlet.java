@@ -1,0 +1,119 @@
+package com.chahyadis.jwt.servlet;
+
+import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.text.ParseException;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import net.minidev.json.JSONObject;
+
+import com.atlassian.jwt.exception.JwtInvalidClaimException;
+import com.chahyadis.jwt.action.IssuerKeySetup;
+import com.chahyadis.jwt.constant.ConstantaVariable;
+import com.chahyadis.jwt.constantas.Constanta;
+import com.chahyadis.jwt.model.JsonOutModel;
+import com.chahyadis.jwt.model.JwtClaimModel;
+import com.chahyadis.jwt.model.JwtHeaderModel;
+import com.chahyadis.jwt.model.JwtTokenModel;
+import com.chahyadis.jwt.utilities.EnDecryptionUtil;
+import com.chahyadis.jwt.verified.ParameterSetupVerification;
+import com.nimbusds.jose.JOSEException;
+import com.nimbusds.jwt.JWTClaimsSet;
+
+/**
+ * Servlet implementation class ServerValidateJwtServlet.
+ * 
+ * @author Surya Chahyadi
+ * @since March 26th, 2015
+ * @version 1.0
+ */
+public class ServerValidateJwtServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public ServerValidateJwtServlet() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		doPost(request, response);
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		JsonOutModel jom = new JsonOutModel();
+		// ini digunakan untuk melakukan test url saja.
+		if (null != request.getParameter("say")) {
+			jom.setCode(Constanta.SUCCESS_STATUS);
+			jom.setErrCode(Constanta.CODE_SUCCESS);
+			jom.setMessage("Hei...hei... ini untuk coba coba aja ya...!");
+		} else { // ini bagian yang bener-nya
+			String message = null;
+			ParameterSetupVerification psv = new ParameterSetupVerification();
+			try {
+				System.out.println(">> param: " + request.getParameter("name"));
+				// token info
+				JwtTokenModel tokenModel = EnDecryptionUtil.decodeJWT(request.getParameter("jwt"));
+				JwtHeaderModel jhm = tokenModel.getJwtHeaderModel();
+				System.out.println(">> header: " + jhm.getTyp() + "; " + jhm.getAlg());
+				
+				JwtClaimModel jcm = tokenModel.getJwtClaimModel();
+				System.out.println(">> claim: qsh: " + jcm.getQsh());
+				System.out.println(">> claim: " + jcm.getIss() + "; " + jcm.getIat() + "; " + jcm.getExp());
+				System.out.println(">> signature: " + tokenModel.getSignature());
+				
+				Map<String, String[]> parameterMap = new HashMap<String, String[]>();
+				parameterMap.put("name", new String[]{request.getParameter("name")});
+				JWTClaimsSet jcs = psv.validateToken(request, parameterMap,
+						ConstantaVariable.DEFAULT_SHARED_KEY, true,
+						new IssuerKeySetup());
+				
+				jom.setCode(Constanta.SUCCESS_STATUS);
+				jom.setMessage("token valid!");
+				jom.setErrCode(Constanta.CODE_SUCCESS);
+			} catch (JwtInvalidClaimException e) {
+				message = "JwtInvalidClaimException: " + e.getMessage();
+			} catch (NoSuchAlgorithmException e) {
+				message = "NoSuchAlgorithmException: " + e.getMessage();
+			} catch (ParseException e) {
+				message = "NoSuchAlgorithmException: " + e.getMessage();
+			} catch (JOSEException e) {
+				message = "NoSuchAlgorithmException: " + e.getMessage();
+			}
+			
+			if (null != message) {
+				System.out.println(">> message: " + message);
+				String[] msg = message.split("\\|");
+				jom.setMessage(msg[1]);
+				jom.setCode(Constanta.FAILED_STATUS);
+				jom.setCode(Integer.valueOf(msg[0]));
+			}
+		}
+
+		JSONObject jsonObject = new JSONObject();
+		if (null != jom.getMessage()) {
+			jsonObject.put("Result: ", jom);
+		}
+
+		response.getWriter().write(jsonObject.toJSONString());
+	}
+
+}

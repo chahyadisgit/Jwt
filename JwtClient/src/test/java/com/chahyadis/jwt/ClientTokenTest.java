@@ -5,10 +5,10 @@ import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 
+import junit.framework.TestCase;
+
 import com.chahyadis.jwt.enumeration.MethodEnum;
 import com.chahyadis.jwt.model.UrlContextPathModel;
-
-import junit.framework.TestCase;
 
 public class ClientTokenTest extends TestCase {
 
