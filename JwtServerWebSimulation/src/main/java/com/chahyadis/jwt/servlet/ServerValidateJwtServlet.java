@@ -90,13 +90,15 @@ public class ServerValidateJwtServlet extends HttpServlet {
 				jom.setMessage("token valid!");
 				jom.setErrCode(Constanta.CODE_SUCCESS);
 			} catch (JwtInvalidClaimException e) {
-				message = "JwtInvalidClaimException: " + e.getMessage();
+				message = "400|" + e.getMessage();
 			} catch (NoSuchAlgorithmException e) {
-				message = "NoSuchAlgorithmException: " + e.getMessage();
+				message = "400|" + e.getMessage();
 			} catch (ParseException e) {
-				message = "NoSuchAlgorithmException: " + e.getMessage();
+				message = "400|" + e.getMessage();
 			} catch (JOSEException e) {
-				message = "NoSuchAlgorithmException: " + e.getMessage();
+				message = "400|" + e.getMessage();
+			} catch (IllegalArgumentException e) {
+				message = e.getMessage();
 			}
 			
 			if (null != message) {
