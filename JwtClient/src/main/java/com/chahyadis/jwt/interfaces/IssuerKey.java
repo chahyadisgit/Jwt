@@ -12,5 +12,11 @@ package com.chahyadis.jwt.interfaces;
  * @version 1.0
  */
 public abstract interface IssuerKey {
+	/**
+	 * appName<br/>
+	 * Berupa identitas project yang akan divalidasi oleh server.
+	 * 
+	 * @return {@link String}
+	 */
 	abstract String appName();
 }
