@@ -13,7 +13,7 @@ import java.util.Date;
  * @since March 24th, 2015
  * @version 1.0
  */
-public class JwtClaimModel {
+public class JwtClaimModel extends BaseModel<JwtClaimModel> {
 	private String sub;
 	private String aud;
 	private String nbf;

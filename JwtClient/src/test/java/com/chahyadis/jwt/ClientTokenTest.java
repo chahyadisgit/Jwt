@@ -17,6 +17,8 @@ public class ClientTokenTest extends TestCase {
 				"surya project", "chahyadis", MethodEnum.POST.name(),
 				"http://localhost:8080", "/jwt", "/customerServlet");
 		
+		System.out.println(urlContextPathModel.toString());
+		
 		Map<String, String[]> parameterMap = new HashMap<String, String[]>();
 		parameterMap.put("name", new String[]{"surya"});
 		parameterMap.put("gender", new String[]{"man"});

@@ -10,7 +10,7 @@ package com.chahyadis.jwt.model;
  * @since March 24th, 2015
  * @version 1.0
  */
-public class JwtHeaderModel {
+public class JwtHeaderModel extends BaseModel<JwtHeaderModel> {
 	private String typ;
 	private String alg;
 

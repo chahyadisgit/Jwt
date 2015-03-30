@@ -10,7 +10,7 @@ package com.chahyadis.jwt.model;
  * @since March 24th, 2015
  * @version 1.0
  */
-public class UrlContextPathModel {
+public class UrlContextPathModel extends BaseModel<UrlContextPathModel> {
 	private Long expiresAt;
 	private String key;
 	private String sharedSecret;

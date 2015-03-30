@@ -8,7 +8,7 @@ package com.chahyadis.jwt.model;
  * @since March 25th, 2015
  * @version 1.0
  */
-public class JwtTokenModel {
+public class JwtTokenModel extends BaseModel<JwtTokenModel> {
 	private String signature;
 	private JwtHeaderModel jwtHeaderModel;
 	private JwtClaimModel jwtClaimModel;
