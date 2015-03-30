@@ -24,5 +24,12 @@ Berikut ini adalah bagian yang akan di validasi:
 <li>expiration token</li>
 </ul>
 
+### Simulator
+#### Client Simulator
+create and send token to server dengan menggunakan method POST
+#### Web Server Simulator
+Melakukan validasi token yang masuk dan mengirim output-nya (success/failed/fraud)
+
+
 ##### Project Status
 on progress
