@@ -50,7 +50,14 @@ public class ServerValidateJwtServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		doPost(request, response);
+		JsonOutModel jom = new JsonOutModel();
+		jom.setCode(Constanta.SUCCESS_STATUS);
+		jom.setErrCode(Constanta.CODE_SUCCESS);
+		jom.setMessage("Hei...hei... ini untuk coba coba aja ya...!");
+
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("result", jom);
+		response.getWriter().write(jsonObject.toJSONString());
 	}
 
 	/**
@@ -60,54 +67,49 @@ public class ServerValidateJwtServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		JsonOutModel jom = new JsonOutModel();
-		// ini digunakan untuk melakukan test url saja.
-		if (null != request.getParameter("say")) {
+
+		String message = null;
+		ParameterSetupVerification psv = new ParameterSetupVerification();
+		try {
+			System.out.println(">> param: " + request.getParameter("name"));
+			// token info
+			JwtTokenModel tokenModel = EnDecryptionUtil.decodeJWT(request
+					.getParameter("jwt"));
+			JwtHeaderModel jhm = tokenModel.getJwtHeaderModel();
+			System.out.println(jhm.toString());
+
+			JwtClaimModel jcm = tokenModel.getJwtClaimModel();
+			System.out.println(jcm.toString());
+			System.out.println(">> signature: " + tokenModel.getSignature());
+
+			Map<String, String[]> parameterMap = new HashMap<String, String[]>();
+			parameterMap.put("name",
+					new String[] { request.getParameter("name") });
+			JWTClaimsSet jcs = psv.validateToken(request, parameterMap,
+					ConstantaVariable.DEFAULT_SHARED_KEY, true,
+					new IssuerKeySetup());
+
 			jom.setCode(Constanta.SUCCESS_STATUS);
+			jom.setMessage("token valid!");
 			jom.setErrCode(Constanta.CODE_SUCCESS);
-			jom.setMessage("Hei...hei... ini untuk coba coba aja ya...!");
-		} else { // ini bagian yang bener-nya
-			String message = null;
-			ParameterSetupVerification psv = new ParameterSetupVerification();
-			try {
-				System.out.println(">> param: " + request.getParameter("name"));
-				// token info
-				JwtTokenModel tokenModel = EnDecryptionUtil.decodeJWT(request.getParameter("jwt"));
-				JwtHeaderModel jhm = tokenModel.getJwtHeaderModel();
-				System.out.println(">> header: " + jhm.getTyp() + "; " + jhm.getAlg());
-				
-				JwtClaimModel jcm = tokenModel.getJwtClaimModel();
-				System.out.println(">> claim: qsh: " + jcm.getQsh());
-				System.out.println(">> claim: " + jcm.getIss() + "; " + jcm.getIat() + "; " + jcm.getExp());
-				System.out.println(">> signature: " + tokenModel.getSignature());
-				
-				Map<String, String[]> parameterMap = new HashMap<String, String[]>();
-				parameterMap.put("name", new String[]{request.getParameter("name")});
-				JWTClaimsSet jcs = psv.validateToken(request, parameterMap,
-						ConstantaVariable.DEFAULT_SHARED_KEY, true,
-						new IssuerKeySetup());
-				
-				jom.setCode(Constanta.SUCCESS_STATUS);
-				jom.setMessage("token valid!");
-				jom.setErrCode(Constanta.CODE_SUCCESS);
-			} catch (JwtInvalidClaimException e) {
-				message = "400|" + e.getMessage();
-			} catch (NoSuchAlgorithmException e) {
-				message = "400|" + e.getMessage();
-			} catch (ParseException e) {
-				message = "400|" + e.getMessage();
-			} catch (JOSEException e) {
-				message = "400|" + e.getMessage();
-			} catch (IllegalArgumentException e) {
-				message = e.getMessage();
-			}
-			
-			if (null != message) {
-				System.out.println(">> message: " + message);
-				String[] msg = message.split("\\|");
-				jom.setMessage(msg[1]);
-				jom.setCode(Constanta.FAILED_STATUS);
-				jom.setCode(Integer.valueOf(msg[0]));
-			}
+		} catch (JwtInvalidClaimException e) {
+			message = "400|JwtInvalidClaimException: " + e.getMessage();
+		} catch (NoSuchAlgorithmException e) {
+			message = "400|NoSuchAlgorithmException: " + e.getMessage();
+		} catch (ParseException e) {
+			message = "400|ParseException: " + e.getMessage();
+		} catch (JOSEException e) {
+			message = "400|JOSEException: " + e.getMessage();
+		} catch (IllegalArgumentException e) {
+			message = e.getMessage();
+		}
+
+		if (null != message) {
+			System.out.println(">> message: " + message);
+			String[] msg = message.split("\\|");
+			jom.setMessage(msg[1]);
+			jom.setCode(Constanta.FAILED_STATUS);
+			jom.setErrCode(Integer.valueOf(msg[0]));
 		}
 
 		JSONObject jsonObject = new JSONObject();
