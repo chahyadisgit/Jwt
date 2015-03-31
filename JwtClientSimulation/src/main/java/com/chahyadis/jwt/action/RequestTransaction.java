@@ -43,7 +43,12 @@ public class RequestTransaction extends IssuerKeySetup {
 
 		// setup parameter for target
 		List<NameValuePair> urlParameters = new ArrayList<NameValuePair>();
-		urlParameters.add(new BasicNameValuePair("name", "chahyadis"));
+		for (Map.Entry<String, String[]> entry : parameterMap.entrySet()) {
+			for (String val : entry.getValue()) {
+				urlParameters.add(new BasicNameValuePair(entry.getKey(), val));	
+			}
+		}
+		
 		try {
 			HttpClient client = new DefaultHttpClient();
 			String token = requestToken(Constanta.BASE_URL,
