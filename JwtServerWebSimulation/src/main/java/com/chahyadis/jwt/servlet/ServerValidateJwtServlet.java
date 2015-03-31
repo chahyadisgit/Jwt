@@ -3,6 +3,7 @@ package com.chahyadis.jwt.servlet;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -71,7 +72,14 @@ public class ServerValidateJwtServlet extends HttpServlet {
 		String message = null;
 		ParameterSetupVerification psv = new ParameterSetupVerification();
 		try {
-			System.out.println(">> param: " + request.getParameter("name"));
+			// get parameter names
+			Enumeration enumeration = request.getParameterNames();
+			String parameterName;
+			while (enumeration.hasMoreElements()) {
+				parameterName = (String) enumeration.nextElement();
+				System.out.println(">>> parameter: " + parameterName);
+			}
+
 			// token info
 			JwtTokenModel tokenModel = EnDecryptionUtil.decodeJWT(request
 					.getParameter("jwt"));
@@ -82,10 +90,7 @@ public class ServerValidateJwtServlet extends HttpServlet {
 			System.out.println(jcm.toString());
 			System.out.println(">> signature: " + tokenModel.getSignature());
 
-			Map<String, String[]> parameterMap = new HashMap<String, String[]>();
-			parameterMap.put("name",
-					new String[] { request.getParameter("name") });
-			JWTClaimsSet jcs = psv.validateToken(request, parameterMap,
+			JWTClaimsSet jcs = psv.validateToken(request,
 					ConstantaVariable.DEFAULT_SHARED_KEY, true,
 					new IssuerKeySetup());
 

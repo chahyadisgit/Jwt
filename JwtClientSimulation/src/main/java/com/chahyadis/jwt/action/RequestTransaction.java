@@ -39,7 +39,9 @@ public class RequestTransaction extends IssuerKeySetup {
 	public void action() {
 		// setup parameter for token
 		Map<String, String[]> parameterMap = new HashMap<String, String[]>();
-		parameterMap.put("name", new String[] { "chahyadis" });
+		parameterMap.put("name", new String[] { "surya", "chahyadis" });
+		parameterMap.put("gender", new String[]{"Pria"});
+		parameterMap.put("status", new String[]{"married"});
 
 		// setup parameter for target
 		List<NameValuePair> urlParameters = new ArrayList<NameValuePair>();
