@@ -53,6 +53,7 @@ public class ClientToken {
 				.computeSha256Hash((null == urlContextPathModel
 						.getSharedSecret() ? ConstantaVariable.DEFAULT_SHARED_KEY
 						: urlContextPathModel.getSharedSecret()));
+		System.out.println(sharedSecret);
 
 		String method = urlContextPathModel.getMethod();
 		String contextPath = urlContextPathModel.getContextPath();

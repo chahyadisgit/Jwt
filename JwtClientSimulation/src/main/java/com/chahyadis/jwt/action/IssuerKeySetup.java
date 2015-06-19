@@ -18,7 +18,7 @@ public class IssuerKeySetup implements IssuerKey {
 	 * @see com.chahyadis.jwt.interfaces.IssuerKey#appName()
 	 */
 	public String appName() {
-		return "chahyadis client project";
+		return "USER_MANAGEMENT";
 	}
 
 }

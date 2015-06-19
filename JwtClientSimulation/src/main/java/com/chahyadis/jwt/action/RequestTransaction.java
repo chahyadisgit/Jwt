@@ -39,9 +39,9 @@ public class RequestTransaction extends IssuerKeySetup {
 	public void action() {
 		// setup parameter for token
 		Map<String, String[]> parameterMap = new HashMap<String, String[]>();
-		parameterMap.put("name", new String[] { "surya", "chahyadis" });
-		parameterMap.put("gender", new String[]{"Pria"});
-		parameterMap.put("status", new String[]{"married"});
+		parameterMap.put("username", new String[] { "Surya.Chahyadi"});
+		parameterMap.put("password", new String[]{"pe4uy0ui"});
+//		parameterMap.put("status", new String[]{"married"});
 
 		// setup parameter for target
 		List<NameValuePair> urlParameters = new ArrayList<NameValuePair>();
@@ -54,7 +54,7 @@ public class RequestTransaction extends IssuerKeySetup {
 		try {
 			HttpClient client = new DefaultHttpClient();
 			String token = requestToken(Constanta.BASE_URL,
-					Constanta.CONTEXT_PATH, "/ServerValidateJwtServlet",
+					Constanta.CONTEXT_PATH, "/user/login",
 					MethodEnum.POST.name(), parameterMap);
 			System.out.println(">> token: " + token);
 			HttpPost post = new HttpPost(token);
